@@ -7,7 +7,7 @@
 #' @param conf.level Confidence level
 #' @export
 
-Est.r<-function(x,y,N,mY, conf.level=0.95){
+Est.r<-function(x, y, N, mY, conf.level=0.95){
   
   n=length(x) # sample size
   s2x=var(x) # sample variance (x)

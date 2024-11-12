@@ -4,9 +4,11 @@
 #' @param x Vector of data
 #' @param y Vector of auxiliary information
 #' @param mY Mean of auxiliary variable
+#' @param b Slope
+#' @param conf.level Confidence level
 #' @export
 
-Est.reg <- function(x,y,N,mY){
+Est.reg <- function(x, y, N, mY, b=NA, conf.level=0.95){
   
   n=length(x) # sample size
   s2x=var(x) # sample variance (x)
@@ -15,18 +17,37 @@ Est.reg <- function(x,y,N,mY){
   rho <- sxy/sqrt(s2x*s2y)
   
   # Estimators
-  b <- sxy/s2y # Coefficient
+  if(is.na(b)){
+    b <- sxy/s2y # Coefficient
+  }
   e.m <- mean(x) + b * (mY - mean(y)) # Mean
   e.t <- e.m * N # Total
   
   # Variance of the estimators
-  v.m <- ((N-n)*s2x*(1-rho^2))/N*n # Mean
+  v.m <- ((N-n)*s2x*(1-rho^2))/(N*n) # Mean
   v.t <- N^2*v.m # Total
+  
+  # Errors
+  er.m=sqrt(v.m) # Mean
+  er.t=sqrt(v.t) # Total
+  
+  # Confidence interval
+  # We assume bias = 0:
+  # Mean
+  lower.m <- e.m - qnorm(1-(1-conf.level)/2) * er.m
+  upper.m <- e.m + qnorm(1-(1-conf.level)/2) * er.m
+  # Total
+  lower.t <- e.t - qnorm(1-(1-conf.level)/2) * er.t
+  upper.t <- e.t + qnorm(1-(1-conf.level)/2) * er.t
   
   list(Est.b=b,
        Est.media=e.m,
        Est.total=e.t,
        Var.media=v.m,
-       Var.total=v.t
+       Var.total=v.t,
+       Err.m=er.m,
+       Err.t=er.t,
+       mean.conf.int = c(lower.m,upper.m),
+       total.conf.int = c(lower.t,upper.t)
        )
 }

@@ -6,7 +6,7 @@
 #' @export
 
 
-Est.mas<-function(x,N,conf.level=0.95){
+Est.mas<-function(x, N, conf.level=0.95){
   
   n=length(x) # sample size
   s2=var(x) # sample variance

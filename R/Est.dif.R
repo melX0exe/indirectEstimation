@@ -7,7 +7,7 @@
 #' @param conf.level Confidence level
 #' @export
 
-Est.dif<-function(x,y,N,mY,conf.level=0.95){
+Est.dif<-function(x, y, N, mY, conf.level=0.95){
   
   n=length(x) # sample size
   s2x=var(x) # sample variance (x)
@@ -24,7 +24,7 @@ Est.dif<-function(x,y,N,mY,conf.level=0.95){
   
   # Errors
   er.m=sqrt(v.m) # Mean
-  er.t=sqrt(v.t) # Sample
+  er.t=sqrt(v.t) # Total
   
   # Confidence intervals
   # Mean
